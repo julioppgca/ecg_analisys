@@ -1,7 +1,7 @@
 %egc analisys 
 % ref: https://www.youtube.com/watch?v=flSL0SXNjbI
 
-function [ Y ] = ecg_fcn( fs, y )
+function [ h1 h2 Y ] = ecg_fcn( fs, y )
 
 % nyquist freq.
 fn = fs/2;
@@ -16,18 +16,18 @@ ym = movmean(y,10);
 
 % define FIR high pass filter coef.
 fc = 1; % in hertz
-h = fir1(500, fc/fn, 'high');
+h1 = fir1(500, fc/fn, 'high');
 
 %filter the signal
-y_filter = filter(h, 1, y);
+y_filter = filter(h1, 1, y);
 
 % define FIR low band filter coef.
 fc = 20; % in hertz
 
-h = fir1(100, fc/fn, 'low');
+h2 = fir1(100, fc/fn, 'low');
 
 %filter the signal
-y_filter = filter(h, 1, y_filter);
+y_filter = filter(h2, 1, y_filter);
 
 Y = y_filter;
 
